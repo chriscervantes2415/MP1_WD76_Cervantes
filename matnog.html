@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css">
+    
+
+
+
+    <title>Matnog</title>
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        /* Style for carousel button */
+
+
+        .carousel-control-prev,
+        .carousel-control-next {
+        background: none;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        /* Add any other custom styling here, if needed */
+        }
+        /* Style for the modal container */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 9999;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+      
+        /* Style for the modal content */
+        .modal-content {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #f9f9f9;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          padding: 20px;
+          max-width: 400px;
+          width: 90%;
+        }
+      
+        /* Style for the close button */
+        #closeModalBtn {
+          margin-top: 10px;
+          background-color: #4281a4;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      
+        /* Style for the floating button (same as your initial button) */
+        .float-button {
+          position: fixed;
+          bottom: 20px;
+          left: 20px;
+          background-color: #4281a4;
+          color: #fff;
+          padding: 20px 25px;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+      
+        /* Style for form elements */
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+      
+        label {
+          margin-top: 10px;
+          font-weight: bold;
+        }
+      
+        input,
+        textarea {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          margin-top: 5px;
+          resize: vertical;
+        }
+      
+        button[type="submit"] {
+          background-color: #4281a4;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          margin-top: 10px;
+          cursor: pointer;
+        }
+      
+        button[type="submit"]:hover {
+          background-color: #4281a4;
+        }
+
+                .map-container {
+            border-radius: 20px; /* Adjust the value as per your preference for the amount of rounding */
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a subtle shadow effect */
+        }
+      </style>
+</head>
+<body class="bg-light">
+    <!-- HEADER START -->
+    <header class="sticky-top">
+        <nav class="navbar">
+            
+            <div class="container-fluid" id="shark">
+                 
+                 <a style="color: white;" class="nav-branding" href="./index.html">
+                    <img style="width: 15%;" src="img/icon.png" alt="">
+                    <span class="text" style="color: #4281a4;">Sorsogon Tours</span>
+                </a>
+        
+        <ul class="nav-menu">
+           
+            <li class="nav-item">
+                <a style="margin-top: 10px; font-size: larger;" class="nav-link" href="./vacation.html">
+                    Vacation Packages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a style="margin-top: 10px; font-size: larger;" class="nav-link" href="./hotel.html">
+                    Hotels
+                </a>
+            </li>
+            <li class="nav-item">
+                <a style="margin-top: 10px; font-size: larger;" class="nav-link" href="./travel.html">
+                    Travel Tips
+                </a>
+            </li>
+        
+        </ul>
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+    </div>
+    
+                <!-- navigation list end -->
+            </div>
+        </nav>
+        </header>
+
+        <!-- HEADER END -->
+
+    <button style="z-index: 2;" class="floating-button" id="scrollButton"><i class="fa-solid fa-arrow-up"></i></button>
+    <button id="openModalBtn" style="z-index: 2; position: fixed; bottom: 70px; left: 20px; background-color: #4281a4; color: #fff; padding: 20px 25px; border: none; border-radius: 50%; cursor: pointer;" class="float-button"><i class="fa-solid fa-message"></i></button>
+
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content" style="background-color: #ead2ac;">
+          <!-- Your "Contact Us" page content goes here -->
+          <!-- Add form elements, text, or any other content you want in the modal -->
+          <h2>Contact Us</h2>
+          <p>Please fill out the form below to get in touch with us.</p>
+          <!-- Add your contact form or any other content here -->
+          <form>
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+        
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+        
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+        
+            <button style="background-color: green;" type="submit">Send Message</button>
+          </form>
+          <!-- Close button -->
+          <button style="background-color: red;" id="closeModalBtn">Close</button>
+        </div>
+      </div>
+
+        <!-- CARDS START -->
+    <div class="container-fluid my-5">
+        <!-- mx padding for left and Right
+        my padding for top and bottom -->
+        <h1 style="text-align: center;" class="text-dark">Sorsogon Matnog Island Hopping Tour with Lunch & Transfers | Tikling Island, Juag Marine Sanctuary</h1>
+        <br/>
+        <div class="row g-3 justify-content-center"> <!-- g-3 is the space between the cards -->
+            <!-- justify-content-center to center the cards -->
+            <!-- g-3 for gutter can also use gx or gy  -->
+            <div class="col-10 mb-5">
+                <div class="card" style="height: 80vh;">
+                    <div id="carouselSample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">   
+                        <!-- carousel body -->
+                        <div class="carousel-inner" style="border-radius: 10px;">
+                            <div class="carousel-item active">
+                                <img style="position: relative;" src="img/matnog/matnog-day-tour-1.avif" class="d-block w-100" alt="">
+                            </div>
+                    
+                            <div class="carousel-item">
+                                <img style="position: relative;" src="img/matnog/pink-sand-beach-at-magnog-sorsogon-4.avif" class="d-block w-100" alt="">
+                            </div>
+                    
+                            <div class="carousel-item">
+                                <img style="position: relative;" src="img/matnog/pink-sand-beach-at-matnog-2.avif" class="d-block w-100" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img style="position: relative;" src="img/matnog/tikling-island.avif" class="d-block w-100" alt="">
+                            </div>
+                        </div>
+                        <!-- need magset ng isa sa mga item as active para gumana -->
+                        
+                        <!-- BUTTONS FOR NEXT AND PREV -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselSample" data-bs-slide="prev">
+                            <i style="font-size: 56px;" class="fa-solid fa-circle-chevron-left fa-lg"></i>
+                        </button>
+                        
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselSample" data-bs-slide="next">
+                            <i style="font-size: 56px;" class="fa-solid fa-circle-chevron-right fa-lg"></i>
+                        </button>
+                    </div>
+                
+                    <div class="card-footer" style="text-align: center;">
+                        <!-- FOOTER -->
+                        <a href="./payment_2.html">Avail now for <span style="font-size: 24px;"><strong>4000</strong></span> PHP only <i style="font-size: 20px; margin-left: 10px;" class="fa-solid fa-circle-arrow-right"></i></a>
+                    </div>
+                        <!-- <a class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#sampleModal2">Learn More</a> -->
+                
+            </div>
+        </div>
+        
+    
+</div>
+</div>
+
+<div class="container">
+    <h2>Description</h2>
+    <br>
+    <p>Get your beach essentials and cameras ready for a memorable visit to the postcard-worthy sights of Matnog, Sorsogon. If basking under the sun and chilling by the beach sounds like a great time to you, a day tour to Matnog is a nice stopover for your trip to Bicol. This tour lasts for about 10 hours and includes the service of a guide, boat transfers, a complimentary lunch, and pick-up and drop-off within Legazpi or Dataga City. </p>
+    <br>
+    <p>The municipality of Matnog is situated in the southernmost part of Luzon in the Bicol region. Here, you'll find pristine and unspoiled beaches with powdery sand and crystal-clear water. This day tour includes visits to Tikling Island, Juag Marine Sanctuary, and other must-see island spots. </p>
+    <br>
+    <p>On the day of your tour, your guide will fetch you from your accommodation within Legazpi or Daraga City at 6 AM. After settling in your transfer, you'll travel to your first stop: the famous Tikling Island, which boasts a pink sand beach. It's less crowded than the more popular beaches in the region, which means you have more privacy here. Feel free to stroll along the shore, swim in shallow waters, take pictures, or lounge and soak up some sun.</p>
+    <br>
+    <p>From there, you'll head to Juag Marine Sanctuary for a slice of marine life during your trip. It is a must-visit for families as everyone can learn about marine animals during their time here. Aside from admiring the various fish that are cared for here, you can also buy a cup of fish food to feed them. After checking out the aquatic life here, you can ask your boatman to bring you to the other pink sand beaches in the area.</p>
+    <br>
+    <p>Discover the best beaches in Matnog during your Bicol vacation by booking this day tour. Check the availability by choosing a date.</p>
+    <br><br>
+    <h2>Inclusions</h2>
+    <ul type="circle">
+        <br>
+        <li><i class="fa-solid fa-check"></i> Complimentary lunch</li>
+        <br>
+        <li><i class="fa-solid fa-check"></i> Boat transfers</li>
+        <br>
+        <li><i class="fa-solid fa-check"></i> Entrance fees to sites included in the itinerary</li>
+        <br>
+        <li><i class="fa-solid fa-check"></i> Matnog private day tour with tour guide assistance</li>
+        <br>
+        <li><i class="fa-solid fa-check"></i> Tour Itinerary: Visits to Tikling Island, Juag Marine Sanctuary and other island sights</li>
+        <br>
+        <li><i class="fa-solid fa-check"></i> Private airconditioned vehicle transfers</li>
+        <br>
+        <li><i class="fa-solid fa-x"></i> Not Included: Other activities onsite, Tips and Gratuities</li>
+        <br>
+
+    </ul>
+    <h2>Map</h2>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15577.825488901288!2d124.1039468249504!3d12.552130934811148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0cadefd8a5fef%3A0xf3a20e1b8006a5cf!2sJuag%20Fish%20Sanctuary!5e0!3m2!1sen!2sus!4v1690181947902!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+<br>
+<h2>Activities</h2>
+<br>
+<p><i class="fa-solid fa-water"></i> Island Hopping</p>
+<br>
+<h2>What to bring</h2>
+<br>
+<p><i class="fa-solid fa-check"></i> Valid ID</p>
+<br>
+<p><i class="fa-solid fa-check"></i> Vaccination Card</p>
+<br>
+<h2>Good to know</h2>
+<br>
+<p>This is a private tour. Activities not indicated are to be paid on site should guests want to avail themselves.</p>
+<p>Children Friendly: Yes!</p>
+<p>Pet Friendly: No. Please understand that this is for your fur baby's safety.</p>
+<p>Senior Citizen/PWD Friendly: Yes!</p>
+<p>Pick-up time is at 6:00AM within Legazpi or Daraga City in Albay only. To change the pick-up time and location please request in advance so our operator may check if the itinerary will fit as we may need to move the pick-up time if the location is far and additional fee may apply.</p>
+<p>The operator may cancel the tour in case of force majeure or unforeseen circumstances like weather conditions. In this case, you will be given the option to reschedule or request a full refund. Note that being late by 15-30 minutes without any advice is considered a no-show. Schedule cancellation requests must be made 48 hours before your original subject to approval.</p>
+
+</div>
+    <!-- CARD END -->
+   
+    <div class="container-fluid" style="background-color: #ead2ac;">
+    <footer style="width: 100%;">
+        <div style="background-color: #ead2ac;" class="container-fluid">
+       <div style="max-width: 1170px; background-color: #ead2ac; margin: auto;" class="container">
+            <div style="display: flex; flex-wrap: wrap;" class="row">
+                <div class="footer-col col-12" style="margin-top: 8px;">
+                    <h5 style="text-align: center;">Follow Us</h5>
+                    <div style="text-align: center;" class="social-links">
+                        <a href="https://www.facebook.com/sorsogonprovincialtourismoffice"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/provinceofsorsogon/"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://twitter.com/sorsogon1894?lang=en"><i class="fa-brands fa-twitter"></i></i></a>
+                        <a href="https://www.tiktok.com/@tourismsorsogon"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                   
+                    <ul>
+                        <li><a style="text-decoration: none; text-align: center;" href="./aboutus.html"><strong>About Us</strong></a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    
+                    <ul>
+                        <li><a style="text-decoration: none; text-align: center;" href="./terms.html"><strong>Terms and Conditions</strong></a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    
+                    <ul>
+                        <li><a style="text-decoration: none; text-align: center;" href="./dataprivacy.html"><strong>Data Privacy Policy</strong></a></li>
+                    </ul>
+                </div>
+                
+            </div>
+       </div>
+    </div>
+        
+    </footer>
+
+    <!-- MODAL SCRIPT  -->
+<script>
+    // Function to open the modal
+    function openModal() {
+      document.getElementById("contactModal").style.display = "block";
+    }
+  
+    // Function to close the modal
+    function closeModal() {
+      document.getElementById("contactModal").style.display = "none";
+    }
+  
+    // Add event listeners to open and close the modal
+    document.getElementById("openModalBtn").addEventListener("click", openModal);
+    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+  </script>
+<!-- MODAL SCRIPT  -->
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+
+    <!-- SCROLL SCRIPT -->
+
+    <script>
+        const floatingButton = document.querySelector('.floating-button');
+    
+        // Scroll to the top of the page when the button is clicked
+        floatingButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+                const scrollButton = document.getElementById("scrollButton");
+        const openModalBtn = document.getElementById("openModalBtn");
+
+        // Function to check if the user has scrolled to the bottom
+        function isScrollAtBottom() {
+        return window.innerHeight + window.scrollY >= document.body.offsetHeight;
+        }
+
+        // Function to toggle the visibility of the button
+        function toggleButtonVisibility() {
+        if (isScrollAtBottom()) {
+            scrollButton.style.display = "none";
+            openModalBtn.style.display = "none";
+        } else {
+            scrollButton.style.display = "block";
+            openModalBtn.style.display = "block";
+        }
+        }
+
+        // Event listener to check the scroll position on scroll
+        window.addEventListener("scroll", toggleButtonVisibility);
+
+        // Initial check when the page loads
+        toggleButtonVisibility();
+
+    </script>
+    
+    
+    <script>
+        // Function to toggle the visibility of the scroll button based on the user's scroll position
+        function toggleScrollButton() {
+            const scrollButton = document.getElementById('scrollButton');
+            if (window.scrollY > 0) {
+                scrollButton.style.visibility = 'visible';
+            } else {
+                scrollButton.style.visibility = 'hidden';
+            }
+        }
+
+        // Attach the event listener for the scroll event
+        window.addEventListener('scroll', toggleScrollButton);
+
+        // Initial call to set the initial state of the button on page load
+        toggleScrollButton();
+    </script>
+
+    <!-- SCROLL UP SCRIPT -->
+
+    <!-- CAROUSEL SCRIPT -->
+    <script>
+        // JavaScript to handle carousel functionality
+        const carousel = document.querySelector('.carousel');
+        const images = carousel.getElementsByTagName('img');
+        let currentIndex = 0;
+    
+        function showImage(index) {
+          for (let i = 0; i < images.length; i++) {
+            images[i].style.display = i === index ? 'block' : 'none';
+          }
+        }
+    
+        function nextImage() {
+          currentIndex = (currentIndex + 1) % images.length;
+          showImage(currentIndex);
+        }
+    
+        function prevImage() {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          showImage(currentIndex);
+        }
+    
+        // Automatically advance the carousel every 3 seconds
+        setInterval(nextImage, 3000);
+    
+        // Uncomment the following lines to enable manual navigation with buttons
+        // const prevButton = document.getElementById('prevButton');
+        // const nextButton = document.getElementById('nextButton');
+        // prevButton.addEventListener('click', prevImage);
+        // nextButton.addEventListener('click', nextImage);
+      </script>
+      <!-- CAROUSEL SCRIPT END -->
+</div>
+</body>
+</html>

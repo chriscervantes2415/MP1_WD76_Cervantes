@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css">
+    
+
+
+
+    <title>Private Tour</title>
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        /* Style for carousel button */
+
+
+        .carousel-control-prev,
+        .carousel-control-next {
+        background: none;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        /* Add any other custom styling here, if needed */
+        }
+        /* Style for the modal container */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 9999;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+      
+        /* Style for the modal content */
+        .modal-content {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #f9f9f9;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          padding: 20px;
+          max-width: 400px;
+          width: 90%;
+        }
+      
+        /* Style for the close button */
+        #closeModalBtn {
+          margin-top: 10px;
+          background-color: #4281a4;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      
+        /* Style for the floating button (same as your initial button) */
+        .float-button {
+          position: fixed;
+          bottom: 20px;
+          left: 20px;
+          background-color: #4281a4;
+          color: #fff;
+          padding: 20px 25px;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+      
+        /* Style for form elements */
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+      
+        label {
+          margin-top: 10px;
+          font-weight: bold;
+        }
+      
+        input,
+        textarea {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          margin-top: 5px;
+          resize: vertical;
+        }
+      
+        button[type="submit"] {
+          background-color: #4281a4;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          margin-top: 10px;
+          cursor: pointer;
+        }
+      
+        button[type="submit"]:hover {
+          background-color: #4281a4;
+        }
+
+                .map-container {
+            border-radius: 20px; /* Adjust the value as per your preference for the amount of rounding */
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a subtle shadow effect */
+        }
+      </style>
+</head>
+<body class="bg-light">
+    <!-- HEADER START -->
+    <header class="sticky-top">
+        <nav class="navbar">
+            
+            <div class="container-fluid" id="shark">
+                 
+                 <a style="color: white;" class="nav-branding" href="./index.html">
+                    <img style="width: 15%;" src="img/icon.png" alt="">
+                    <span class="text" style="color: #4281a4;">Sorsogon Tours</span>
+                </a>
+        
+        <ul class="nav-menu">
+           
+            <li class="nav-item">
+                <a style="margin-top: 10px; font-size: larger;" class="nav-link" href="./vacation.html">
+                    Vacation Packages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a style="margin-top: 10px; font-size: larger;" class="nav-link" href="./hotel.html">
+                    Hotels
+                </a>
+            </li>
+            <li class="nav-item">
+                <a style="margin-top: 10px; font-size: larger;" class="nav-link" href="./travel.html">
+                    Travel Tips
+                </a>
+            </li>
+        
+        </ul>
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+    </div>
+    
+                <!-- navigation list end -->
+            </div>
+        </nav>
+        </header>
+
+        <!-- HEADER END -->
+
+    <button style="z-index: 2;" class="floating-button" id="scrollButton"><i class="fa-solid fa-arrow-up"></i></button>
+    <button id="openModalBtn" style="z-index: 2; position: fixed; bottom: 70px; left: 20px; background-color: #4281a4; color: #fff; padding: 20px 25px; border: none; border-radius: 50%; cursor: pointer;" class="float-button"><i class="fa-solid fa-message"></i></button>
+
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content" style="background-color: #ead2ac;">
+          <!-- Your "Contact Us" page content goes here -->
+          <!-- Add form elements, text, or any other content you want in the modal -->
+          <h2>Contact Us</h2>
+          <p>Please fill out the form below to get in touch with us.</p>
+          <!-- Add your contact form or any other content here -->
+          <form>
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+        
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+        
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+        
+            <button style="background-color: green;" type="submit">Send Message</button>
+          </form>
+          <!-- Close button -->
+          <button style="background-color: red;" id="closeModalBtn">Close</button>
+        </div>
+      </div>
+
+        <!-- CARDS START -->
+    <div class="container-fluid my-5">
+        <!-- mx padding for left and Right
+        my padding for top and bottom -->
+        <h1 style="text-align: center;" class="text-dark">Sorsogon Top Tourist Spots Private Tour with Lunch & Transfers from Legazpi City</h1>
+        <br/>
+        <div class="row g-3 justify-content-center"> <!-- g-3 is the space between the cards -->
+            <!-- justify-content-center to center the cards -->
+            <!-- g-3 for gutter can also use gx or gy  -->
+            <div class="col-10 mb-5">
+                <div class="card" style="height: 80vh;">
+                    <div id="carouselSample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">   
+                        <!-- carousel body -->
+                        <div class="carousel-inner" style="border-radius: 10px;">
+                            <div class="carousel-item active">
+                                <img style="position: relative;" src="img/private/beautiful-sight-of-mt-bulusan-3.avif" class="d-block w-100" alt="">
+                            </div>
+                    
+                            <div class="carousel-item">
+                                <img style="position: relative;" src="img/private/boats-parked-in-bulusan-lake-in-sorsogon-1.avif" class="d-block w-100" alt="">
+                            </div>
+                    
+                            <div class="carousel-item">
+                                <img style="position: relative;" src="img/private/colorful-kayaks-in-bulusan-lake-in-sorsogon-4.avif" class="d-block w-100" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img style="position: relative;" src="img/private/green-landscape-of-mt-bulusan-2.avif" class="d-block w-100" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img style="position: relative;" src="img/private/old-barcelona-church-in-sorsogon-5.avif" class="d-block w-100" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img style="position: relative;" src="img/private/scenic-view-of-mount-bulusan.avif" class="d-block w-100" alt="">
+                            </div>
+                        </div>
+                        <!-- need magset ng isa sa mga item as active para gumana -->
+                        
+                        <!-- BUTTONS FOR NEXT AND PREV -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselSample" data-bs-slide="prev">
+                            <i style="font-size: 56px;" class="fa-solid fa-circle-chevron-left fa-lg"></i>
+                        </button>
+                        
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselSample" data-bs-slide="next">
+                            <i style="font-size: 56px;" class="fa-solid fa-circle-chevron-right fa-lg"></i>
+                        </button>
+                    </div>
+                
+                    <div class="card-footer" style="text-align: center;">
+                        <!-- FOOTER -->
+                        <a href="./payment_4.html">Avail now for <span style="font-size: 24px;"><strong>3400</strong></span> PHP only <i style="font-size: 20px; margin-left: 10px;" class="fa-solid fa-circle-arrow-right"></i></a>
+                    </div>
+                        <!-- <a class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#sampleModal2">Learn More</a> -->
+                
+            </div>
+        </div>
+        
+    
+</div>
+</div>
+
+<div class="container">
+    <h2>Description</h2>
+    <br>
+    <p>Explore Sorsogon and witness the province's most iconic attractions on this full-day private tour from Legazpi. Visit San Benon Hot Springs, Old Barcelona Church, Kambal Busay Falls, Balay Buhay Sa Uma Bee Farm, Sorsogon Museum, and Bulusan Nature Park with the comfort of the package's included private air-conditioned van transport. You will also enjoy a delicious complimentary lunch. </p>
+    <br>
+    <p>Your tour will begin once you are picked up at your accommodation in Legazpi City. You will be driven to the town of Irosin. Here you will find the San Benon Hot Springs, which sits at the foot of Bulusan Volcano. You can go for a dip into the naturally heated water and relieve your stress and muscle pains.</p>
+    <br>
+    <p>After a relaxing pool bath, you will be paying a visit to one of the region's oldest churches, Old Barcelona Church. Constructed in 1874 by the Franciscan friars, the church walls were initially made of coral rocks. The interiors underwent several renovations throughout the years. Today, you will notice that the outside of the church is purely made of stones while the inside has steel and glass features.</p>
+    <br>
+    <p>Next in your itinerary is the jewel of this tour, the municipality of Bulusan. Bulusan is one of the top eco-tourism destinations in the Philippines. It is filled with natural wonders like mountains, forests, rivers, falls, lakes, springs, and white-sand beaches.</p>
+    <br>
+    <p>Bulusan will reward you with its vibrant ecosystem and stunning natural attractions, starting with the highest peak in the province, Mount Bulusan. The slopes of this volcano shelter local industries like Karagumoy handicrafts, honey farms, and Pili plantations. You will also drop by the Bulusan Volcano National Park, Palogtok Falls, and Bulusan Lake, among others.</p>
+    <br>
+    <p>Also in Bulusan is Kambal Busay Falls and Balay Buhay Bee Sa Uma Farm. The former is a gorgeous waterfall that features several picturesque cascades, while the latter is an agri-tourism site that is home to accommodations, a restaurant, and a bee farm. You will also visit Sorsogon City so you can explore the Sorsogon Museum, which used to be the provincial jail of Sorsogon but is now home to exhibits that showcase the history and culture of the province.</p>
+    <br>
+    <p>If your group is into surfing and would like to take lessons or try out some basics of this sport, it's recommended to visit Gubat in the morning before heading to the attractions mentioned above.</p>
+    <br>
+    <p>Come along on this exciting tour and experience Sorsogon's top tourist spots. Check the availability by choosing a date.</p>
+    <br><br>
+    <h2>Inclusions</h2>
+    <ul type="circle">
+        <br>
+        <li><i class="fa-solid fa-check"></i> Hotel Pick-up and Drop Off within Legazpi</li>
+        <br>
+        <li><i class="fa-solid fa-check"></i> Complimentary pack lunch</li>
+        <br>
+        <li><i class="fa-solid fa-check"></i> Entrance Fee to sites included in the itinerary</li>
+        <br>
+        <li><i class="fa-solid fa-check"></i> Sorsogon Private Top Tourist Spots with tour guide assistance</li>
+        <br>
+        <li><i class="fa-solid fa-check"></i> Tour Itinerary: Visits to San Benon Hot Springs, Old Barcelona Church, Kambal Busay Falls, Balay Buhay Sa Uma Bee Farm, Sorsogon Museum, and Bulusan Nature Park</li>
+        <br>
+        <li><i class="fa-solid fa-x"></i> Not Included: Other activities onsite, Tips and Gratuities</li>
+        <br>
+
+    </ul>
+    <h2>Attractions</h2>
+    <br>
+    <h4>Old Barcelona Church</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.1531071954137!2d123.62630457426592!3d12.897874754950113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a122c67f504d57%3A0x8adb0b4a540f4067!2sFirefly%20River%20Tour!5e0!3m2!1sen!2sph!4v1690182804911!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>Gubat</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124440.2149938084!2d124.02915959232689!3d12.923351733439615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0eb656e582be1%3A0x1a6ce34d68d4b9ee!2sGubat%2C%20Sorsogon!5e0!3m2!1sen!2sph!4v1690184186566!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>San Benon Hot Spring</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3891.7190449776913!2d124.02304457473011!3d12.731742787562018!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0c5a4045dc631%3A0xdcab3969f7d257af!2sSan%20Benon%20Mateo%20Hot%20and%20Cold%20Spring%20Resort!5e0!3m2!1sen!2sph!4v1690184236239!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>Sorsogon</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248832.97287061115!2d123.8031100462324!3d12.970879000729095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0ef0dabfe6e53%3A0x5512c9080fd4fcbb!2sSorsogon%20City%2C%20Sorsogon!5e0!3m2!1sen!2sph!4v1690184267242!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>Busay Falls</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.459746889574!2d123.95242893013643!3d13.006368790077982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0e5ed9660c319%3A0x58431dead719fe63!2sBusay%20Falls!5e0!3m2!1sen!2sph!4v1690184320836!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>Bulusan</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124526.70841660874!2d123.94995335582445!3d12.748634848432452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0c6e3cd48a6ad%3A0x50d518d02fa4ad67!2sBulusan%2C%20Sorsogon!5e0!3m2!1sen!2sph!4v1690184372823!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>Bulusan Lake</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7782.770484235594!2d124.08825604022735!3d12.753475300168763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0c6e9a3ec5c7f%3A0x7434df8c7b1d21d9!2sBulusan%20Lake!5e0!3m2!1sen!2sph!4v1690184409725!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>Museo Sorsogon</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1943.995517794801!2d123.99954699839475!3d12.972425000000015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0ef32e3a721d1%3A0x4b2892ba745d9b9f!2sMuseo%20Sorsogon!5e0!3m2!1sen!2sph!4v1690184449688!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>Bulusan Volcano Natural Park</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31129.943222307662!2d124.05154103906162!3d12.762731352140717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0c6e35a610e61%3A0x8662851f59c1ffe9!2sBulusan%20Volcano%20Natural%20Park!5e0!3m2!1sen!2sph!4v1690184493133!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>Balay Buhay sa Uma Bee Farm</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3891.599726742413!2d124.08213807473018!3d12.739515287554902!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0c68ae672bbe3%3A0xa72726bea09aaeb0!2sBalay%20Buhay%20sa%20Uma%20Bee%20Farm!5e0!3m2!1sen!2sph!4v1690184532503!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <br>
+    <h4>Palogtoc Falls</h4>
+    <br>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3891.700583543426!2d124.07844407473007!3d12.732945687560925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a0c666aa4b55bf%3A0x918bf8ca7699dd8f!2sPalogtoc%20Falls!5e0!3m2!1sen!2sph!4v1690184579156!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+<br>
+<h2>Activities</h2>
+<br>
+<p><i class="fa-solid fa-person-hiking"></i> Culture, Arts and Historical Tour</p>
+<br>
+<h2>What to bring</h2>
+<br>
+<p><i class="fa-solid fa-check"></i> Camera, phone, charger, and power bank</p>
+<br>
+<p><i class="fa-solid fa-check"></i> Personal drinking water and or snacks</p>
+<br>
+<p><i class="fa-solid fa-check"></i> Personal sanitizing alcohol and face mask</p>
+<br>
+<p><i class="fa-solid fa-check"></i> Extra money in Philippine Peso Currency</p>
+<br>
+<p><i class="fa-solid fa-check"></i> Personal medicine</p>
+<br>
+<p><i class="fa-solid fa-check"></i> Covid-19 vaccination card and valid ID</p>
+<br>
+<h2>Good to know</h2>
+<br>
+<p>This is a private tour. Activities not indicated are to be paid on site should guests want to avail themselves.</p>
+<p>Children Friendly: Yes!</p>
+<p>Pet Friendly: Yes!</p>
+<p>Senior Citizen/PWD Friendly: Yes!</p>
+<p>Pick-up time is at 8:00am within Legazpi City only. To change the pick-up time and location please request in advance so our operator may check if the itinerary will fit as we may need to move the pick-up time if the location is far and additional fee may apply.</p>
+<p>The operator may cancel the tour in case of force majeure or unforeseen circumstances like weather conditions. In this case, you will be given the option to reschedule or request a full refund. Note that being late by 15-30 minutes without any advice is considered a no-show. Schedule cancellation requests must be made 48 hours before your original subject to approval.</p>
+
+</div>
+    <!-- CARD END -->
+   
+    <div class="container-fluid" style="background-color: #ead2ac;">
+    <footer style="width: 100%;">
+        <div style="background-color: #ead2ac;" class="container-fluid">
+       <div style="max-width: 1170px; background-color: #ead2ac; margin: auto;" class="container">
+            <div style="display: flex; flex-wrap: wrap;" class="row">
+                <div class="footer-col col-12" style="margin-top: 8px;">
+                    <h5 style="text-align: center;">Follow Us</h5>
+                    <div style="text-align: center;" class="social-links">
+                        <a href="https://www.facebook.com/sorsogonprovincialtourismoffice"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/provinceofsorsogon/"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://twitter.com/sorsogon1894?lang=en"><i class="fa-brands fa-twitter"></i></i></a>
+                        <a href="https://www.tiktok.com/@tourismsorsogon"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                   
+                    <ul>
+                        <li><a style="text-decoration: none; text-align: center;" href="./aboutus.html"><strong>About Us</strong></a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    
+                    <ul>
+                        <li><a style="text-decoration: none; text-align: center;" href="./terms.html"><strong>Terms and Conditions</strong></a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    
+                    <ul>
+                        <li><a style="text-decoration: none; text-align: center;" href="./dataprivacy.html"><strong>Data Privacy Policy</strong></a></li>
+                    </ul>
+                </div>
+                
+            </div>
+       </div>
+    </div>
+        
+    </footer>
+
+    <!-- MODAL SCRIPT  -->
+<script>
+    // Function to open the modal
+    function openModal() {
+      document.getElementById("contactModal").style.display = "block";
+    }
+  
+    // Function to close the modal
+    function closeModal() {
+      document.getElementById("contactModal").style.display = "none";
+    }
+  
+    // Add event listeners to open and close the modal
+    document.getElementById("openModalBtn").addEventListener("click", openModal);
+    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+  </script>
+<!-- MODAL SCRIPT  -->
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+
+    <!-- SCROLL SCRIPT -->
+
+    <script>
+        const floatingButton = document.querySelector('.floating-button');
+    
+        // Scroll to the top of the page when the button is clicked
+        floatingButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+                const scrollButton = document.getElementById("scrollButton");
+        const openModalBtn = document.getElementById("openModalBtn");
+
+        // Function to check if the user has scrolled to the bottom
+        function isScrollAtBottom() {
+        return window.innerHeight + window.scrollY >= document.body.offsetHeight;
+        }
+
+        // Function to toggle the visibility of the button
+        function toggleButtonVisibility() {
+        if (isScrollAtBottom()) {
+            scrollButton.style.display = "none";
+            openModalBtn.style.display = "none";
+        } else {
+            scrollButton.style.display = "block";
+            openModalBtn.style.display = "block";
+        }
+        }
+
+        // Event listener to check the scroll position on scroll
+        window.addEventListener("scroll", toggleButtonVisibility);
+
+        // Initial check when the page loads
+        toggleButtonVisibility();
+
+    </script>
+    
+    
+    <script>
+        // Function to toggle the visibility of the scroll button based on the user's scroll position
+        function toggleScrollButton() {
+            const scrollButton = document.getElementById('scrollButton');
+            if (window.scrollY > 0) {
+                scrollButton.style.visibility = 'visible';
+            } else {
+                scrollButton.style.visibility = 'hidden';
+            }
+        }
+
+        // Attach the event listener for the scroll event
+        window.addEventListener('scroll', toggleScrollButton);
+
+        // Initial call to set the initial state of the button on page load
+        toggleScrollButton();
+    </script>
+
+    <!-- SCROLL UP SCRIPT -->
+
+    <!-- CAROUSEL SCRIPT -->
+    <script>
+        // JavaScript to handle carousel functionality
+        const carousel = document.querySelector('.carousel');
+        const images = carousel.getElementsByTagName('img');
+        let currentIndex = 0;
+    
+        function showImage(index) {
+          for (let i = 0; i < images.length; i++) {
+            images[i].style.display = i === index ? 'block' : 'none';
+          }
+        }
+    
+        function nextImage() {
+          currentIndex = (currentIndex + 1) % images.length;
+          showImage(currentIndex);
+        }
+    
+        function prevImage() {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          showImage(currentIndex);
+        }
+    
+        // Automatically advance the carousel every 3 seconds
+        setInterval(nextImage, 3000);
+    
+        // Uncomment the following lines to enable manual navigation with buttons
+        // const prevButton = document.getElementById('prevButton');
+        // const nextButton = document.getElementById('nextButton');
+        // prevButton.addEventListener('click', prevImage);
+        // nextButton.addEventListener('click', nextImage);
+      </script>
+      <!-- CAROUSEL SCRIPT END -->
+</div>
+</body>
+</html>

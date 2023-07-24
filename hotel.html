@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css">
+    
+
+
+
+    <title>Hotels</title>
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        /* Style for the modal container */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 9999;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+      
+        /* Style for the modal content */
+        .modal-content {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #f9f9f9;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          padding: 20px;
+          max-width: 400px;
+          width: 90%;
+        }
+      
+        /* Style for the close button */
+        #closeModalBtn {
+          margin-top: 10px;
+          background-color: #4281a4;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      
+        /* Style for the floating button (same as your initial button) */
+        .float-button {
+          position: fixed;
+          bottom: 20px;
+          left: 20px;
+          background-color: #4281a4;
+          color: #fff;
+          padding: 20px 25px;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+      
+        /* Style for form elements */
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+      
+        label {
+          margin-top: 10px;
+          font-weight: bold;
+        }
+      
+        input,
+        textarea {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          margin-top: 5px;
+          resize: vertical;
+        }
+      
+        button[type="submit"] {
+          background-color: #4281a4;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          margin-top: 10px;
+          cursor: pointer;
+        }
+      
+        button[type="submit"]:hover {
+          background-color: #4281a4;
+        }
+
+            .custom-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4281a4;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .custom-button:hover {
+            background-color: #FFA000;
+        }
+
+      </style>
+</head>
+<body class="bg-light">
+    <!-- HEADER START -->
+    <header class="sticky-top">
+        <nav class="navbar">
+            
+            <div class="container-fluid" id="shark">
+                 
+                 <a style="color: white;" class="nav-branding" href="./index.html">
+                    <img style="width: 15%;" src="img/icon.png" alt="">
+                    <span class="text" style="color: #4281a4;">Sorsogon Tours</span>
+                </a>
+        
+        <ul class="nav-menu">
+           
+            <li class="nav-item">
+                <a style="margin-top: 10px; font-size: larger;" class="nav-link" href="./index.html">
+                    Home Page
+                </a>
+            </li>
+            <li class="nav-item">
+                <a style="margin-top: 10px; font-size: larger;" class="nav-link" href="./vacation.html">
+                    Vacation Packages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a style="margin-top: 10px; font-size: larger;" class="nav-link" href="./travel.html">
+                    Travel Tips
+                </a>
+            </li>
+        
+        </ul>
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+    </div>
+    
+                <!-- navigation list end -->
+            </div>
+        </nav>
+        </header>
+
+        <!-- HEADER END -->
+
+    <button style="z-index: 2;" class="floating-button" id="scrollButton"><i class="fa-solid fa-arrow-up"></i></button>
+    <button id="openModalBtn" style="z-index: 2; position: fixed; bottom: 70px; left: 20px; background-color: #4281a4; color: #fff; padding: 20px 25px; border: none; border-radius: 50%; cursor: pointer;" class="float-button"><i class="fa-solid fa-message"></i></button>
+
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content" style="background-color: #ead2ac;">
+          <!-- Your "Contact Us" page content goes here -->
+          <!-- Add form elements, text, or any other content you want in the modal -->
+          <h2>Contact Us</h2>
+          <p>Please fill out the form below to get in touch with us.</p>
+          <!-- Add your contact form or any other content here -->
+          <form>
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+        
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+        
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+        
+            <button style="background-color: green;" type="submit">Send Message</button>
+          </form>
+          <!-- Close button -->
+          <button style="background-color: red;" id="closeModalBtn">Close</button>
+        </div>
+      </div>
+
+        <!-- CARDS START -->
+    <div class="container-fluid my-5">
+        <!-- mx padding for left and Right
+        my padding for top and bottom -->
+        <h1 style="text-align: center;" class="text-dark">Sorsogon Hotels and Places to Stay</h1>
+        <br/>
+        <div class="row g-3 justify-content-center"> <!-- g-3 is the space between the cards -->
+            <!-- justify-content-center to center the cards -->
+            <!-- g-3 for gutter can also use gx or gy  -->
+            <div class="col-lg-6 col-sm-12 col-md-6 mb-5">
+                <div class="card h-100">
+                    <img src="img/des/fernandos-hotel.jpg" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">Fernandos Hotel</h5>
+                    <br>
+                    <div class="card-text">
+                        <div class="row">
+                            <div class="col-1 d-flex align-items-center">
+                                <i class="fa-solid fa-hotel"></i>
+                            </div>
+                            <div class="col-5">Category
+                                <br>
+                                3 Stars Hotel
+                            </div>
+                            <div class="col-1 d-flex align-items-center">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div class="col-5">Location
+                                <br>
+                                Bitan-o, Sorsogon
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1 d-flex align-items-center">
+                                <i class="fa-solid fa-burger"></i>
+                                  
+                            </div>
+                            <div class="col-5">Breakfast
+                                <br>
+                                Free
+                            </div>
+                            <div class="col-1 d-flex align-items-center">
+                                <i class="fa-solid fa-wifi"></i>
+                            </div>
+                            <div class="col-5">Free Wifi
+                                <br>
+                                Rated excellent
+                            </div>
+                        </div>
+                    </div>
+                    
+                        <!-- <a class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#sampleModal2">Learn More</a> -->
+                </div>
+                <div class="card-footer">
+                    <h2 style="text-align: center;"> <img style="width: 15%;" src="img/des/Agoda.png" alt=""> ₱1,132</h2>
+                    <br>
+                    <a style="text-decoration: none;" class="custom-button" href="https://www.agoda.com/search?cid=1856702&checkin=2023-08-01&checkout=2023-08-02&numberofchildren=0&mcid=332&pid=f0de8009-90a8-401f-925f-3b4ecf37cf3a&audid=&audm=&mbl=L&baserate=1132.10&taxandfee=135.85&basepricedisplay=B&ccallout=FALSE&source=sp&hl=en&tag=hid294142,pidf0de8009-90a8-401f-925f-3b4ecf37cf3a&n=0&adults=2&rooms=1&los=1&currency=PHP&selectedproperty=294142&city=102475&pslc=1" target="_blank">Book Now</a>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 col-md-6 mb-5">
+            <div class="card h-100">
+                <img src="img/des/touristlink-homestay.jpg" class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title">Touristlink Homestay</h5>
+                <br>
+                <div class="card-text">
+                    <div class="row">
+                        <div class="col-1 d-flex align-items-center">
+                            <i class="fa-solid fa-hotel"></i>
+                        </div>
+                        <div class="col-5">Category
+                            <br>
+                            3 Stars Hotel
+                        </div>
+                        <div class="col-1 d-flex align-items-center">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div class="col-5">Location
+                            <br>
+                            Bitan-o, Sorsogon
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1 d-flex align-items-center">
+                            <i class="fa-solid fa-burger"></i>
+                              
+                        </div>
+                        <div class="col-5">Breakfast
+                            <br>
+                            Free
+                        </div>
+                        <div class="col-1 d-flex align-items-center">
+                            <i class="fa-solid fa-wifi"></i>
+                        </div>
+                        <div class="col-5">Free Wifi
+                            <br>
+                            Rated excellent
+                        </div>
+                    </div>
+                </div>
+                
+                    <!-- <a class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#sampleModal2">Learn More</a> -->
+            </div>
+            <div class="card-footer">
+                <h2 style="text-align: center;"> <img style="width: 15%;" src="img/des/Agoda.png" alt=""> ₱720</h2>
+                <br>
+                <a style="text-decoration: none;" class="custom-button" href="https://www.agoda.com/search?cid=1856702&checkin=2023-08-01&checkout=2023-08-02&numberofchildren=0&mcid=3038&pid=29dfae16-f7ee-4de8-a920-6b2601fea71d&audid=&audm=&mbl=M&baserate=720.00&taxandfee=0.00&basepricedisplay=B&ccallout=FALSE&source=sp&hl=en&tag=hid7825448,pid29dfae16-f7ee-4de8-a920-6b2601fea71d&n=0&adults=2&rooms=1&los=1&currency=PHP&selectedproperty=7825448&city=709105&pslc=1" target="_blank">Book Now</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12 col-md-6 mb-5">
+        <div class="card h-100">
+            <img src="img/des/novo.webp" class="card-img-top" alt="">
+        <div class="card-body">
+            <h5 class="card-title">Asia Novo Boutique Hotel - Sorsogon</h5>
+            <br>
+            <div class="card-text">
+                <div class="row">
+                    <div class="col-1 d-flex align-items-center">
+                        <i class="fa-solid fa-hotel"></i>
+                    </div>
+                    <div class="col-5">Category
+                        <br>
+                        3 Stars Hotel
+                    </div>
+                    <div class="col-1 d-flex align-items-center">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="col-5">Location
+                        <br>
+                        Bitan-o, Sorsogon
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1 d-flex align-items-center">
+                        <i class="fa-solid fa-burger"></i>
+                          
+                    </div>
+                    <div class="col-5">Breakfast
+                        <br>
+                        Free
+                    </div>
+                    <div class="col-1 d-flex align-items-center">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <div class="col-5">Free Wifi
+                        <br>
+                        Rated excellent
+                    </div>
+                </div>
+            </div>
+            
+                <!-- <a class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#sampleModal2">Learn More</a> -->
+        </div>
+        <div class="card-footer">
+            <h2 style="text-align: center;"> <img style="width: 15%;" src="img/des/Agoda.png" alt=""> ₱1,059</h2>
+            <br>
+            <a style="text-decoration: none;" class="custom-button" href="https://www.agoda.com/search?cid=1587490&checkin=2023-08-01&checkout=2023-08-02&numberofchildren=0&mcid=332&pid=cb11f92a-7b0f-4ea9-adb8-9395a8eea8f4&audid=&audm=&mbl=L&baserate=1072.32&taxandfee=268.08&basepricedisplay=B&ccallout=FALSE&source=meta&hl=en&tag=hid27914119,pidcb11f92a-7b0f-4ea9-adb8-9395a8eea8f4&n=10568&adults=2&rooms=1&los=1&currency=PHP&selectedproperty=27914119&city=102475&pslc=1" target="_blank">Book Now</a>
+        </div>
+    </div>
+</div>
+        
+<div class="col-lg-6 col-sm-12 col-md-6 mb-5">
+    <div class="card h-100">
+        <img src="img/des/villa-isabel.jpg" class="card-img-top" alt="">
+    <div class="card-body">
+        <h5 class="card-title">Villa Isabel</h5>
+        <br>
+        <div class="card-text">
+            <div class="row">
+                <div class="col-1 d-flex align-items-center">
+                    <i class="fa-solid fa-hotel"></i>
+                </div>
+                <div class="col-5">Category
+                    <br>
+                    4 Stars Hotel
+                </div>
+                <div class="col-1 d-flex align-items-center">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="col-5">Location
+                    <br>
+                    Bitan-o, Sorsogon
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1 d-flex align-items-center">
+                    <i class="fa-solid fa-burger"></i>
+                      
+                </div>
+                <div class="col-5">Breakfast
+                    <br>
+                    Free
+                </div>
+                <div class="col-1 d-flex align-items-center">
+                    <i class="fa-solid fa-wifi"></i>
+                </div>
+                <div class="col-5">Free Wifi
+                    <br>
+                    Rated excellent
+                </div>
+            </div>
+        </div>
+        
+            <!-- <a class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#sampleModal2">Learn More</a> -->
+    </div>
+    <div class="card-footer">
+        <h2 style="text-align: center;"> <img style="width: 15%;" src="img/des/Agoda.png" alt=""> ₱5,754</h2>
+        <br>
+        <a style="text-decoration: none;" class="custom-button" href="https://www.agoda.com/search?cid=1587490&checkin=2023-08-01&checkout=2023-08-02&numberofchildren=0&mcid=332&pid=7c06c65d-42ea-4477-a92a-7ec153548c23&audid=&audm=&mbl=M&baserate=5753.98&taxandfee=690.48&basepricedisplay=B&ccallout=FALSE&source=meta&hl=en&tag=hid287409,pid7c06c65d-42ea-4477-a92a-7ec153548c23&n=10568&adults=2&rooms=1&los=1&currency=PHP&selectedproperty=287409&city=102475&pslc=1" target="_blank">Book Now</a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+
+    <!-- CARD END -->
+   
+    <div class="container-fluid" style="background-color: #ead2ac;">
+    <footer style="width: 100%;">
+        <div style="background-color: #ead2ac;" class="container-fluid">
+       <div style="max-width: 1170px; background-color: #ead2ac; margin: auto;" class="container">
+            <div style="display: flex; flex-wrap: wrap;" class="row">
+                <div class="footer-col col-12" style="margin-top: 8px;">
+                    <h5 style="text-align: center;">Follow Us</h5>
+                    <div style="text-align: center;" class="social-links">
+                        <a href="https://www.facebook.com/sorsogonprovincialtourismoffice"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/provinceofsorsogon/"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://twitter.com/sorsogon1894?lang=en"><i class="fa-brands fa-twitter"></i></i></a>
+                        <a href="https://www.tiktok.com/@tourismsorsogon"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                   
+                    <ul>
+                        <li><a style="text-decoration: none; text-align: center;" href="./aboutus.html"><strong>About Us</strong></a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    
+                    <ul>
+                        <li><a style="text-decoration: none; text-align: center;" href="./terms.html"><strong>Terms and Conditions</strong></a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    
+                    <ul>
+                        <li><a style="text-decoration: none; text-align: center;" href="./dataprivacy.html"><strong>Data Privacy Policy</strong></a></li>
+                    </ul>
+                </div>
+                
+            </div>
+       </div>
+    </div>
+        
+    </footer>
+
+    <!-- MODAL SCRIPT  -->
+<script>
+    // Function to open the modal
+    function openModal() {
+      document.getElementById("contactModal").style.display = "block";
+    }
+  
+    // Function to close the modal
+    function closeModal() {
+      document.getElementById("contactModal").style.display = "none";
+    }
+  
+    // Add event listeners to open and close the modal
+    document.getElementById("openModalBtn").addEventListener("click", openModal);
+    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+  </script>
+<!-- MODAL SCRIPT  -->
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+
+    <!-- SCROLL SCRIPT -->
+
+    <script>
+        const floatingButton = document.querySelector('.floating-button');
+    
+        // Scroll to the top of the page when the button is clicked
+        floatingButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+                const scrollButton = document.getElementById("scrollButton");
+        const openModalBtn = document.getElementById("openModalBtn");
+
+        // Function to check if the user has scrolled to the bottom
+        function isScrollAtBottom() {
+        return window.innerHeight + window.scrollY >= document.body.offsetHeight;
+        }
+
+        // Function to toggle the visibility of the button
+        function toggleButtonVisibility() {
+        if (isScrollAtBottom()) {
+            scrollButton.style.display = "none";
+            openModalBtn.style.display = "none";
+        } else {
+            scrollButton.style.display = "block";
+            openModalBtn.style.display = "block";
+        }
+        }
+
+        // Event listener to check the scroll position on scroll
+        window.addEventListener("scroll", toggleButtonVisibility);
+
+        // Initial check when the page loads
+        toggleButtonVisibility();
+
+    </script>
+    
+    
+    <script>
+        // Function to toggle the visibility of the scroll button based on the user's scroll position
+        function toggleScrollButton() {
+            const scrollButton = document.getElementById('scrollButton');
+            if (window.scrollY > 0) {
+                scrollButton.style.visibility = 'visible';
+            } else {
+                scrollButton.style.visibility = 'hidden';
+            }
+        }
+
+        // Attach the event listener for the scroll event
+        window.addEventListener('scroll', toggleScrollButton);
+
+        // Initial call to set the initial state of the button on page load
+        toggleScrollButton();
+    </script>
+
+    <!-- SCROLL UP SCRIPT -->
+
+    <!-- CAROUSEL SCRIPT -->
+    <script>
+        // JavaScript to handle carousel functionality
+        const carousel = document.querySelector('.carousel');
+        const images = carousel.getElementsByTagName('img');
+        let currentIndex = 0;
+    
+        function showImage(index) {
+          for (let i = 0; i < images.length; i++) {
+            images[i].style.display = i === index ? 'block' : 'none';
+          }
+        }
+    
+        function nextImage() {
+          currentIndex = (currentIndex + 1) % images.length;
+          showImage(currentIndex);
+        }
+    
+        function prevImage() {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          showImage(currentIndex);
+        }
+    
+        // Automatically advance the carousel every 3 seconds
+        setInterval(nextImage, 3000);
+    
+        // Uncomment the following lines to enable manual navigation with buttons
+        // const prevButton = document.getElementById('prevButton');
+        // const nextButton = document.getElementById('nextButton');
+        // prevButton.addEventListener('click', prevImage);
+        // nextButton.addEventListener('click', nextImage);
+      </script>
+      <!-- CAROUSEL SCRIPT END -->
+</div>
+</body>
+</html>
